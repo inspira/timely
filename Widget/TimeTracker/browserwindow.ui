@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BrowserWindow</class>
+ <widget class="QWidget" name="BrowserWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>536</width>
+    <height>467</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>536</width>
+    <height>467</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>536</width>
+    <height>467</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QProgressBar" name="progressBar">
+   <property name="geometry">
+    <rect>
+     <x>7</x>
+     <y>440</y>
+     <width>521</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="value">
+    <number>24</number>
+   </property>
+  </widget>
+  <widget class="QWebView" name="webView">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>541</width>
+     <height>431</height>
+    </rect>
+   </property>
+   <property name="url">
+    <url>
+     <string>about:blank</string>
+    </url>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKit/QWebView</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
