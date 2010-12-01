@@ -77,7 +77,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+         <widget class="QDoubleSpinBox" name="sbHours"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnSave">
+          <property name="text">
+           <string>Salvar</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -123,17 +130,6 @@
           <property name="icon">
            <iconset resource="Resource.qrc">
             <normaloff>:/resource/Player Pause.png</normaloff>:/resource/Player Pause.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnEnd">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="Resource.qrc">
-            <normaloff>:/resource/Player End.png</normaloff>:/resource/Player End.png</iconset>
           </property>
          </widget>
         </item>

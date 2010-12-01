@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-QT       += webkit
+QT       += network xml
 
 TARGET = TimeTracker
 TEMPLATE = app
@@ -14,15 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     mainwidget.cpp \
-    browserwindow.cpp
+    REST/http.cpp
 
 HEADERS  += \
     mainwidget.h \
-    browserwindow.h
+    REST/http.h \
+    ICallback.h
 
 FORMS    += \
-    mainwidget.ui \
-    browserwindow.ui
+    mainwidget.ui
 
 RESOURCES += \
     Resource.qrc

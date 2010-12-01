@@ -3,14 +3,17 @@
 #include <QMessageBox>
 #include <QCloseEvent>
 #include <QMenu>
+#include <QtXml/QDomDocument>
 
-#include <browserwindow.h>
+#include <REST/http.h>
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget)
 {
     ui->setupUi(this);
+
+    http = new Http(this, this);
 
     createActions();
     createTrayIcon();
@@ -67,7 +70,6 @@ void MainWidget::trayIconClicked(QSystemTrayIcon::ActivationReason reason)
 MainWidget::~MainWidget()
 {
     delete ui;
-    delete browser;
 
     delete trayIcon;
     delete trayIconMenu;
@@ -75,9 +77,16 @@ MainWidget::~MainWidget()
     delete close;
 }
 
-void MainWidget::on_btnBrowser_clicked()
-{
-    browser = new BrowserWindow(this);
+//Test
 
-    browser->showFullScreen();
+void MainWidget::callback(QDomDocument data)
+{
+    QMessageBox::information(this, tr("Info"), data.toString());
+}
+
+//!Test
+
+void MainWidget::on_btnSave_clicked()
+{
+    http->get(QString("http://weather.yahooapis.com/forecastrss?w=2502265"), QString(""), QString(""));
 }
