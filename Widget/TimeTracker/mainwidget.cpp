@@ -2,6 +2,7 @@
 #include "ui_mainwidget.h"
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QMenu>
 
 #include <browserwindow.h>
 
@@ -49,10 +50,11 @@ void MainWidget::setIcon()
 void MainWidget::closeEvent(QCloseEvent *event)
 {
     if (trayIcon->isVisible()) {
-             trayIcon->showMessage(tr("Estou aqui!"),
-                                      tr("O apontador de horas continua aberto. Para sair escolha a opção Sair no system tray."));
-             hide();
-             event->ignore();
+        trayIcon->showMessage(tr("Still here!!!"),
+        tr("This application is still running. To quit please click this icon and select Quit"));
+        hide();
+
+        event->ignore(); // Don't let the event propagate to the base class
     }
 }
 
@@ -66,6 +68,11 @@ MainWidget::~MainWidget()
 {
     delete ui;
     delete browser;
+
+    delete trayIcon;
+    delete trayIconMenu;
+    delete open;
+    delete close;
 }
 
 void MainWidget::on_btnBrowser_clicked()

@@ -2,9 +2,10 @@
 #define MAINWIDGET_H
 
 #include <QWidget>
+
 #include <QSystemTrayIcon>
-#include <QMenu>
-#include <QGraphicsScene>
+
+class QMenu;
 
 class BrowserWindow;
 
