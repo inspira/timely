@@ -14,12 +14,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     mainwidget.cpp \
-    REST/http.cpp
+    REST/http.cpp \
+    ServiceCalls/caller.cpp
 
 HEADERS  += \
     mainwidget.h \
     REST/http.h \
-    ICallback.h
+    ICallback.h \
+    ServiceCalls/caller.h
 
 FORMS    += \
     mainwidget.ui

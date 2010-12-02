@@ -4,8 +4,9 @@
 #include <QCloseEvent>
 #include <QMenu>
 #include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
 
-#include <REST/http.h>
+#include <ServiceCalls/caller.h>
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -13,13 +14,15 @@ MainWidget::MainWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    http = new Http(this, this);
+    caller = new Caller(this, this);
 
     createActions();
     createTrayIcon();
     setIcon();
 
     trayIcon->show();
+
+    caller->getProjects();
 }
 
 void MainWidget::createActions()
@@ -81,12 +84,41 @@ MainWidget::~MainWidget()
 
 void MainWidget::callback(QDomDocument data)
 {
-    QMessageBox::information(this, tr("Info"), data.toString());
+    QDomElement root = data.documentElement();
+
+    if(root.tagName() == "projects")
+    {
+        qDebug() << "Got projects";
+
+        QDomNode project = root.firstChild();
+
+        while(!project.isNull()){
+            if(project.toElement().tagName() == "project"){
+                int id = -1;
+                QString name("");
+
+                QDomNodeList nodes = project.childNodes();
+
+                for(int i = 0; i < nodes.count(); i++){
+                    QDomElement element = nodes.at(i).toElement();
+
+                    if(element.tagName() == "id")
+                        id = element.text().toInt();
+                    else if(element.tagName() == "name")
+                        name = element.text();
+                }
+
+                ui->cmbProjects->addItem(name, id);
+
+            }
+
+            project = project.nextSibling();
+        }
+    }
 }
 
 //!Test
 
 void MainWidget::on_btnSave_clicked()
 {
-    http->get(QString("http://weather.yahooapis.com/forecastrss?w=2502265"), QString(""), QString(""));
 }

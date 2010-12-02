@@ -2,9 +2,11 @@
 #define HTTP_H
 
 #include <QtCore>
+#include <QList>
+#include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QSslError>
 
 class QNetworkAccessManager;
-class QNetworkReply;
 class ICallback;
 
 class Http : public QObject
@@ -17,6 +19,7 @@ public:
     ~Http();
 
     void get(QString url, QString user, QString password);
+    void get(QString url);
 
 signals:
     void progress(qint64,qint64);
@@ -32,6 +35,8 @@ private:
 
 private slots:
     void finished(QNetworkReply *reply);
+    void sslError(QList<QSslError>);
+    void networkError(QNetworkReply::NetworkError);
 
 };
 

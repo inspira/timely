@@ -7,7 +7,7 @@
 #include "ICallback.h"
 
 class QMenu;
-class Http;
+class Caller;
 
 class BrowserWindow;
 
@@ -39,7 +39,7 @@ private:
     QAction *open;
     QAction *close;
 
-    Http *http;
+    Caller *caller;
 
 
 private slots:

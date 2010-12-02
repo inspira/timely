@@ -62,7 +62,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QComboBox" name="comboBox"/>
+       <widget class="QComboBox" name="cmbProjects"/>
       </item>
       <item>
        <widget class="QComboBox" name="comboBox_2"/>

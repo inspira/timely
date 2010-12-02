@@ -5,6 +5,9 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QSslConfiguration>
+
+#include <QMessageBox>
 
 #include <QtXml/QDomDocument>
 
@@ -15,21 +18,39 @@ Http::Http(QObject * parent, ICallback *callbackObject)
     this->callbackObject = callbackObject;
 }
 
+void Http::get(QString url)
+{
+    _get(url, QString(""), QString(""));
+}
+
 void Http::get(QString url, QString user, QString password)
 {
-    _get(url, user, password); // TODO: Asynchronous get!!!
+    _get(url, user, password, true);
 }
 
 void Http::_get(QString url, QString user, QString password, bool requiresAuthorization)
 {
     mutex.lock(); // Let's be thread-safe shall we?
 
+    QSslConfiguration config(QSslConfiguration::defaultConfiguration());
+
     QNetworkRequest request;
 
+
+    request.setSslConfiguration(config);
+
     if(requiresAuthorization)
-        request.setRawHeader("Authorization", "Basic" +
+        request.setRawHeader("Authorization", "Basic " +
                              QByteArray(QString("%1:%2").arg(user).arg(password).toAscii().toBase64())
                          );
+    request.setRawHeader("Accept", "application/xml");
+    request.setRawHeader("Content-Type", "application/xml");
+
+    qDebug() << request.rawHeader("Authorization");
+    qDebug() << request.rawHeader("Accept");
+    qDebug() << request.rawHeader("Content-Type");
+
+    qDebug() << url;
 
     request.setUrl(QUrl(url));
 
@@ -38,19 +59,39 @@ void Http::_get(QString url, QString user, QString password, bool requiresAuthor
     reply = netManager->get(request);
 
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(progress(qint64,qint64)));
+    connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslError(QList<QSslError>)));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
 
     mutex.unlock();
 }
 
 void Http::finished(QNetworkReply *reply)
 {
+    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+
+    QString code = statusCode.toString();
+
+    qDebug() << QString("Response code: %1").arg(code);
+    qDebug() << reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
+
     QDomDocument dom;
     dom.setContent(reply);
 
     callbackObject->callback(dom);
 }
 
+void Http::sslError(QList<QSslError>)
+{
+    QMessageBox::critical(0, tr("Error!"), tr("An SSL error has ocurred.\n"));
+}
+
+void Http::networkError(QNetworkReply::NetworkError error)
+{
+    QMessageBox::critical(0, tr("Error!"), tr("An network error has ocurred.\n"));
+}
+
 Http::~Http()
 {
+    delete reply;
     delete netManager;
 }
