@@ -13,6 +13,8 @@ class Caller : public QObject
 public:
     Caller(QObject *parent, ICallback *callbackObject);
     void getProjects();
+    void getPeople(int projectId);
+    void getCompanies(int projectId);
     ~Caller();
 
 private:
@@ -24,7 +26,8 @@ private:
     QString serviceUrl;
     QString projects;
     QString apiKey;
-
+    QString persons;
+    QString companies;
 };
 
 #endif // CALLER_H

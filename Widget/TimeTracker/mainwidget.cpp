@@ -20,6 +20,9 @@ MainWidget::MainWidget(QWidget *parent) :
     createTrayIcon();
     setIcon();
 
+    ui->cmbCompanies->setDisabled(true);
+    ui->cmbPeople->setDisabled(true);
+
     trayIcon->show();
 
     caller->getProjects();
@@ -80,45 +83,179 @@ MainWidget::~MainWidget()
     delete close;
 }
 
-//Test
 
 void MainWidget::callback(QDomDocument data)
 {
+    qDebug() << data.toString();
+
     QDomElement root = data.documentElement();
 
     if(root.tagName() == "projects")
     {
         qDebug() << "Got projects";
 
-        QDomNode project = root.firstChild();
+        gotProjects(parseProjects(root.firstChild()));
+    }
+    else if (root.tagName() == "people")
+    {
+        qDebug() << "Got people";
 
-        while(!project.isNull()){
-            if(project.toElement().tagName() == "project"){
-                int id = -1;
-                QString name("");
+        gotPeople(parsePeople(root.firstChild()));
+    }
+    else if(root.tagName() == "companies")
+    {
+        qDebug() << "Got companies";
 
-                QDomNodeList nodes = project.childNodes();
-
-                for(int i = 0; i < nodes.count(); i++){
-                    QDomElement element = nodes.at(i).toElement();
-
-                    if(element.tagName() == "id")
-                        id = element.text().toInt();
-                    else if(element.tagName() == "name")
-                        name = element.text();
-                }
-
-                ui->cmbProjects->addItem(name, id);
-
-            }
-
-            project = project.nextSibling();
-        }
+        gotCompanies(parseCompanies(root.firstChild()));
     }
 }
 
-//!Test
+QList<Project> MainWidget::parseProjects(QDomNode projectRoot)
+{
+    QList<Project> projects;
+
+    while(!projectRoot.isNull()){
+        if(projectRoot.toElement().tagName() == "project"){
+            Project p;
+            QDomNodeList nodes = projectRoot.childNodes();
+
+            for(int i = 0; i < nodes.count(); i++){
+                QDomElement element = nodes.at(i).toElement();
+
+                if(element.tagName() == "id")
+                    p.id = element.text().toInt();
+                else if(element.tagName() == "name")
+                    p.name = element.text();
+                else if(element.tagName() == "status")
+                    p.status = element.text();
+             }
+
+            projects.append(p);
+
+        }
+
+        projectRoot = projectRoot.nextSibling();
+    }
+
+    return projects;
+}
+
+QList<Person> MainWidget::parsePeople(QDomNode peopleRoot)
+{
+    QList<Person> people;
+
+    while(!peopleRoot.isNull()){
+        if(peopleRoot.toElement().tagName() == "person"){
+            Person p;
+            QDomNodeList nodes = peopleRoot.childNodes();
+
+            for(int i = 0; i < nodes.count(); i++){
+                QDomElement element = nodes.at(i).toElement();
+
+                if(element.tagName() == "id")
+                    p.id = element.text().toInt();
+                else if(element.tagName() == "user-name")
+                    p.name = element.text();
+             }
+
+            people.append(p);
+
+        }
+
+        peopleRoot = peopleRoot.nextSibling();
+    }
+
+    return people;
+}
+
+QList<Company> MainWidget::parseCompanies(QDomNode companyRoot)
+{
+    QList<Company> companies;
+
+    while(!companyRoot.isNull()){
+        if(companyRoot.toElement().tagName() == "company"){
+            Company c;
+            QDomNodeList nodes = companyRoot.childNodes();
+
+            for(int i = 0; i < nodes.count(); i++){
+                QDomElement element = nodes.at(i).toElement();
+
+                if(element.tagName() == "id")
+                    c.id = element.text().toInt();
+                else if(element.tagName() == "name")
+                    c.name = element.text();
+             }
+
+            companies.append(c);
+
+        }
+
+        companyRoot = companyRoot.nextSibling();
+    }
+
+    return companies;
+}
+
+void MainWidget::gotProjects(QList<Project> projects)
+{
+    this->projects = projects;
+
+    for(int i = 0; i < projects.count(); i++){
+        if(projects.at(i).status == "active")
+            ui->cmbProjects->addItem(projects.at(i).name, projects.at(i).id);
+    }
+}
+
+void MainWidget::gotPeople(QList<Person> people)
+{
+    ui->cmbPeople->clear();
+
+    for(int i = 0; i < people.count(); i++){
+            ui->cmbPeople->addItem(people.at(i).name, people.at(i).id);
+    }
+
+    ui->cmbPeople->setDisabled(false);
+}
+
+void MainWidget::gotCompanies(QList<Company> companies)
+{
+    ui->cmbCompanies->clear();
+
+    for(int i = 0; i < companies.count(); i++){
+            ui->cmbCompanies->addItem(companies.at(i).name, companies.at(i).id);
+    }
+
+    ui->cmbCompanies->setDisabled(false);
+}
 
 void MainWidget::on_btnSave_clicked()
 {
+
+}
+
+void MainWidget::on_cmbProjects_currentIndexChanged(int index)
+{
+    ui->cmbCompanies->clear();
+    ui->cmbCompanies->setDisabled(true);
+
+    ui->cmbPeople->clear();
+    ui->cmbCompanies->setDisabled(true);
+
+    int id = getCurrentProjectId();
+
+    caller->getCompanies(id);
+    caller->getPeople(id);
+}
+
+void MainWidget::on_cmbCompanies_currentIndexChanged(int index)
+{
+
+}
+
+int MainWidget::getCurrentProjectId()
+{
+    for(int i = 0; i < projects.count(); i++){
+        if(projects.at(i).name == ui->cmbProjects->currentText())
+            return projects.at(i).id;
+    }
 }

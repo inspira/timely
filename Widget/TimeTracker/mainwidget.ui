@@ -57,15 +57,18 @@
        <x>5</x>
        <y>10</y>
        <width>331</width>
-       <height>167</height>
+       <height>200</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <widget class="QComboBox" name="cmbCompanies"/>
+      </item>
+      <item>
        <widget class="QComboBox" name="cmbProjects"/>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox_2"/>
+       <widget class="QComboBox" name="cmbPeople"/>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">

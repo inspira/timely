@@ -21,7 +21,10 @@ HEADERS  += \
     mainwidget.h \
     REST/http.h \
     ICallback.h \
-    ServiceCalls/caller.h
+    ServiceCalls/caller.h \
+    DomainModel/project.h \
+    DomainModel/person.h \
+    DomainModel/company.h
 
 FORMS    += \
     mainwidget.ui
