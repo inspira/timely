@@ -57,14 +57,14 @@
        <x>5</x>
        <y>10</y>
        <width>331</width>
-       <height>200</height>
+       <height>171</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QLabel" name="lblWelcome">
         <property name="text">
-         <string/>
+         <string>Bem vindo,</string>
         </property>
        </widget>
       </item>
@@ -87,53 +87,6 @@
          <widget class="QPushButton" name="btnSave">
           <property name="text">
            <string>Salvar</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Lembrete a cada</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBox"/>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>minutos.</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QPushButton" name="btnPlay">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="Resource.qrc">
-            <normaloff>:/resource/Player Play.png</normaloff>:/resource/Player Play.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnPause">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="Resource.qrc">
-            <normaloff>:/resource/Player Pause.png</normaloff>:/resource/Player Pause.png</iconset>
           </property>
          </widget>
         </item>
