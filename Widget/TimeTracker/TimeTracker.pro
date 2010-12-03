@@ -15,7 +15,8 @@ TEMPLATE = app
 SOURCES += main.cpp \
     mainwidget.cpp \
     REST/http.cpp \
-    ServiceCalls/caller.cpp
+    ServiceCalls/caller.cpp \
+    configuration.cpp
 
 HEADERS  += \
     mainwidget.h \
@@ -24,7 +25,9 @@ HEADERS  += \
     ServiceCalls/caller.h \
     DomainModel/project.h \
     DomainModel/person.h \
-    DomainModel/company.h
+    DomainModel/company.h \
+    configuration.h \
+    DomainModel/timeentry.h
 
 FORMS    += \
     mainwidget.ui

@@ -7,6 +7,7 @@
 #include <QtXml/QDomElement>
 
 #include <ServiceCalls/caller.h>
+#include <configuration.h>
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -14,17 +15,19 @@ MainWidget::MainWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    defaultHour = ui->sbHours->text();
+
+    ui->btnSave->setDisabled(true);
+
     caller = new Caller(this, this);
 
     createActions();
     createTrayIcon();
     setIcon();
 
-    ui->cmbCompanies->setDisabled(true);
-    ui->cmbPeople->setDisabled(true);
-
     trayIcon->show();
 
+    caller->getLoggedUser();
     caller->getProjects();
 }
 
@@ -96,17 +99,15 @@ void MainWidget::callback(QDomDocument data)
 
         gotProjects(parseProjects(root.firstChild()));
     }
-    else if (root.tagName() == "people")
+    else if (root.tagName() == "person")
     {
-        qDebug() << "Got people";
+        qDebug() << "Got person";
 
-        gotPeople(parsePeople(root.firstChild()));
+        gotPerson(parsePerson(root));
     }
     else if(root.tagName() == "companies")
     {
         qDebug() << "Got companies";
-
-        gotCompanies(parseCompanies(root.firstChild()));
     }
 }
 
@@ -140,60 +141,28 @@ QList<Project> MainWidget::parseProjects(QDomNode projectRoot)
     return projects;
 }
 
-QList<Person> MainWidget::parsePeople(QDomNode peopleRoot)
+Person MainWidget::parsePerson(QDomNode personRoot)
 {
-    QList<Person> people;
+    qDebug() << personRoot.toElement().text();
 
-    while(!peopleRoot.isNull()){
-        if(peopleRoot.toElement().tagName() == "person"){
-            Person p;
-            QDomNodeList nodes = peopleRoot.childNodes();
+    QDomNodeList nodes = personRoot.childNodes();
 
-            for(int i = 0; i < nodes.count(); i++){
-                QDomElement element = nodes.at(i).toElement();
+    qDebug() << QString("Got %1").arg(nodes.count());
 
-                if(element.tagName() == "id")
-                    p.id = element.text().toInt();
-                else if(element.tagName() == "user-name")
-                    p.name = element.text();
-             }
+    Person p;
 
-            people.append(p);
+    for(int i = 0; i < nodes.count(); i++){
+        QDomElement element = nodes.at(i).toElement();
 
-        }
+        qDebug() << element.tagName();
 
-        peopleRoot = peopleRoot.nextSibling();
+        if(element.tagName() == "id")
+            p.id = element.text().toInt();
+        else if(element.tagName() == "user-name")
+            p.name = element.text();
     }
 
-    return people;
-}
-
-QList<Company> MainWidget::parseCompanies(QDomNode companyRoot)
-{
-    QList<Company> companies;
-
-    while(!companyRoot.isNull()){
-        if(companyRoot.toElement().tagName() == "company"){
-            Company c;
-            QDomNodeList nodes = companyRoot.childNodes();
-
-            for(int i = 0; i < nodes.count(); i++){
-                QDomElement element = nodes.at(i).toElement();
-
-                if(element.tagName() == "id")
-                    c.id = element.text().toInt();
-                else if(element.tagName() == "name")
-                    c.name = element.text();
-             }
-
-            companies.append(c);
-
-        }
-
-        companyRoot = companyRoot.nextSibling();
-    }
-
-    return companies;
+    return p;
 }
 
 void MainWidget::gotProjects(QList<Project> projects)
@@ -206,50 +175,39 @@ void MainWidget::gotProjects(QList<Project> projects)
     }
 }
 
-void MainWidget::gotPeople(QList<Person> people)
+void MainWidget::gotPerson(Person person)
 {
-    ui->cmbPeople->clear();
-
-    for(int i = 0; i < people.count(); i++){
-            ui->cmbPeople->addItem(people.at(i).name, people.at(i).id);
-    }
-
-    ui->cmbPeople->setDisabled(false);
-}
-
-void MainWidget::gotCompanies(QList<Company> companies)
-{
-    ui->cmbCompanies->clear();
-
-    for(int i = 0; i < companies.count(); i++){
-            ui->cmbCompanies->addItem(companies.at(i).name, companies.at(i).id);
-    }
-
-    ui->cmbCompanies->setDisabled(false);
+    ui->lblWelcome->setText(QString("Bem vindo, %1").arg(person.name));
 }
 
 void MainWidget::on_btnSave_clicked()
 {
 
+    Configuration config;
+
+    qDebug() << config.getApplicationConfigurationFolder();
 }
 
 void MainWidget::on_cmbProjects_currentIndexChanged(int index)
 {
-    ui->cmbCompanies->clear();
-    ui->cmbCompanies->setDisabled(true);
-
-    ui->cmbPeople->clear();
-    ui->cmbCompanies->setDisabled(true);
-
-    int id = getCurrentProjectId();
-
-    caller->getCompanies(id);
-    caller->getPeople(id);
+    tryToEnableSave();
 }
 
-void MainWidget::on_cmbCompanies_currentIndexChanged(int index)
+bool MainWidget::canManuallySaveHours(double hours)
 {
+    double _hours = 0;
 
+    if(hours == 0)
+        _hours = ui->sbHours->text().toDouble();
+    else
+        _hours = hours;
+
+    return _hours > 0 && getCurrentProjectId() != -1;
+}
+
+void MainWidget::tryToEnableSave(double hours)
+{
+    ui->btnSave->setDisabled(!canManuallySaveHours(hours));
 }
 
 int MainWidget::getCurrentProjectId()
@@ -258,4 +216,11 @@ int MainWidget::getCurrentProjectId()
         if(projects.at(i).name == ui->cmbProjects->currentText())
             return projects.at(i).id;
     }
+
+    return -1;
+}
+
+void MainWidget::on_sbHours_valueChanged(double hours)
+{
+    tryToEnableSave(hours);
 }

@@ -62,13 +62,14 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QComboBox" name="cmbCompanies"/>
+       <widget class="QLabel" name="lblWelcome">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QComboBox" name="cmbProjects"/>
-      </item>
-      <item>
-       <widget class="QComboBox" name="cmbPeople"/>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">

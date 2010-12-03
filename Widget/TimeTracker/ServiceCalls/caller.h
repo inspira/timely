@@ -15,6 +15,7 @@ public:
     void getProjects();
     void getPeople(int projectId);
     void getCompanies(int projectId);
+    void getLoggedUser();
     ~Caller();
 
 private:
@@ -28,6 +29,7 @@ private:
     QString apiKey;
     QString persons;
     QString companies;
+    QString me;
 };
 
 #endif // CALLER_H

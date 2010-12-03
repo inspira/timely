@@ -21,6 +21,8 @@ public:
     void get(QString url, QString user, QString password);
     void get(QString url);
 
+    void post(QString url, QString user, QString password, QString data);
+
 signals:
     void progress(qint64,qint64);
 

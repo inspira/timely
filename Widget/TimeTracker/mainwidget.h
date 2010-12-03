@@ -34,9 +34,13 @@ private:
     void setIcon();
     void closeEvent(QCloseEvent *);
 
+    bool canManuallySaveHours(double hours = 0);
+
+    void tryToEnableSave(double hours = 0);
+
     QList<Project> parseProjects(QDomNode projectRoot);
-    QList<Person> parsePeople(QDomNode peopleRoot);
-    QList<Company> parseCompanies(QDomNode companyRoot);
+
+    Person parsePerson(QDomNode personRoot);
 
     QList<Project> projects;
 
@@ -48,19 +52,22 @@ private:
     QAction *open;
     QAction *close;
 
+    QString defaultHour;
+
     int getCurrentProjectId();
 
     Caller *caller;
 
 
 private slots:
+    void on_sbHours_valueChanged(double );
+    void on_sbHours_editingFinished();
     void on_cmbCompanies_currentIndexChanged(int index);
     void on_cmbProjects_currentIndexChanged(int index);
     void on_btnSave_clicked();
     void trayIconClicked(QSystemTrayIcon::ActivationReason);
     void gotProjects(QList<Project>);
-    void gotPeople(QList<Person>);
-    void gotCompanies(QList<Company>);
+    void gotPerson(Person person);
 };
 
 #endif // MAINWIDGET_H
