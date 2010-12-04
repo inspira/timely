@@ -6,9 +6,9 @@
 
 Caller::Caller(QObject *parent, ICallback *callbackObject)
     : QObject(parent),
-    serviceUrl("https://inspiradev.basecamphq.com/"),
+    serviceUrl("https://inspirasandbox.basecamphq.com/"),
     projects("projects.xml"),
-    apiKey("fef639fd1055d3df72ac7fe0a8d9c5cd25376208"),
+    apiKey("dd8c4e8c9dcec2c1431c869ccc29d6c2c3745d06"),
     persons("projects/%1/people.xml"),
     companies("projects/%1/companies.xml"),
     me("me.xml")
