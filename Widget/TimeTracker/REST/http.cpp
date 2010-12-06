@@ -82,6 +82,8 @@ void Http::post(QString url, QString user, QString password, QString data)
 
     request.setUrl(QUrl(url));
 
+    qDebug() << url;
+
     connect(netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finished(QNetworkReply*)));
 
     reply = netManager->post(request, data.toAscii().toBase64());

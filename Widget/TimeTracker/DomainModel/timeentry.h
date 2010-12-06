@@ -9,7 +9,7 @@ class TimeEntry
 public:
     int personId;
     QDate date;
-    int hours;
+    double hours;
     QString description;
 };
 

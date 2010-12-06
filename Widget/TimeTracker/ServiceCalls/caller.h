@@ -2,6 +2,7 @@
 #define CALLER_H
 
 #include <QtCore>
+#include <DomainModel/timeentry.h>
 
 class Http;
 class QDomDocument;
@@ -16,6 +17,7 @@ public:
     void getPeople(int projectId);
     void getCompanies(int projectId);
     void getLoggedUser();
+    void postTimeEntry(TimeEntry, int);
     ~Caller();
 
 private:
@@ -24,6 +26,7 @@ private:
 
     ICallback *callbackObject;
 
+    QString timeEntry;
     QString serviceUrl;
     QString projects;
     QString apiKey;

@@ -9,6 +9,8 @@
 #include <ServiceCalls/caller.h>
 #include <configuration.h>
 
+#include <DomainModel/timeentry.h>
+
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget)
@@ -177,15 +179,23 @@ void MainWidget::gotProjects(QList<Project> projects)
 
 void MainWidget::gotPerson(Person person)
 {
+    this->currentPerson = person;
     ui->lblWelcome->setText(QString("Bem vindo, %1").arg(person.name));
 }
 
 void MainWidget::on_btnSave_clicked()
 {
-
     Configuration config;
 
     qDebug() << config.getApplicationConfigurationFolder();
+
+    TimeEntry timeEntry;
+    timeEntry.date = QDate::currentDate();
+    timeEntry.hours = ui->sbHours->text().toDouble();
+    timeEntry.personId = currentPerson.id;
+    timeEntry.description = ui->txtDescription->toPlainText();
+
+    caller->postTimeEntry(timeEntry, this->getCurrentProjectId());
 }
 
 void MainWidget::on_cmbProjects_currentIndexChanged(int index)

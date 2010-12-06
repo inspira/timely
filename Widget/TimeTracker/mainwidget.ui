@@ -72,6 +72,9 @@
        <widget class="QComboBox" name="cmbProjects"/>
       </item>
       <item>
+       <widget class="QTextEdit" name="txtDescription"/>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLabel" name="label">

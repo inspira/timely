@@ -54,6 +54,8 @@ private:
 
     QString defaultHour;
 
+    Person currentPerson;
+
     int getCurrentProjectId();
 
     Caller *caller;
