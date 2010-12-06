@@ -45,7 +45,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tabMain">
     <attribute name="title">
@@ -102,18 +102,38 @@
     <attribute name="title">
      <string>Opções</string>
     </attribute>
-    <widget class="QPushButton" name="btnBrowser">
+    <widget class="QWidget" name="verticalLayoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>100</x>
-       <y>70</y>
-       <width>98</width>
-       <height>27</height>
+       <x>0</x>
+       <y>10</y>
+       <width>341</width>
+       <height>91</height>
       </rect>
      </property>
-     <property name="text">
-      <string>Browser</string>
-     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Api key:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="txtApiKey"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnSaveConfiguration">
+        <property name="text">
+         <string>Save</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
   </widget>

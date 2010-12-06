@@ -13,6 +13,7 @@
 class QMenu;
 class Caller;
 class QDomNode;
+class Configuration;
 
 namespace Ui {
     class MainWidget;
@@ -51,6 +52,7 @@ private:
 
     QAction *open;
     QAction *close;
+    Configuration *configuration;
 
     QString defaultHour;
 
@@ -62,6 +64,7 @@ private:
 
 
 private slots:
+    void on_btnSaveConfiguration_clicked();
     void on_sbHours_valueChanged(double );
     void on_sbHours_editingFinished();
     void on_cmbCompanies_currentIndexChanged(int index);

@@ -12,7 +12,7 @@ class Caller : public QObject
 {
     Q_OBJECT
 public:
-    Caller(QObject *parent, ICallback *callbackObject);
+    Caller(QObject *parent, ICallback *callbackObject, QString key);
     void getProjects();
     void getPeople(int projectId);
     void getCompanies(int projectId);

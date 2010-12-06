@@ -17,11 +17,15 @@ MainWidget::MainWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    configuration = new Configuration();
+
+    ui->txtApiKey->setText(configuration->getApiKey());
+
     defaultHour = ui->sbHours->text();
 
     ui->btnSave->setDisabled(true);
 
-    caller = new Caller(this, this);
+    caller = new Caller(this, this, ui->txtApiKey->text());
 
     createActions();
     createTrayIcon();
@@ -29,8 +33,10 @@ MainWidget::MainWidget(QWidget *parent) :
 
     trayIcon->show();
 
-    caller->getLoggedUser();
-    caller->getProjects();
+    if(!ui->txtApiKey->text().isEmpty()){
+        caller->getLoggedUser();
+        caller->getProjects();
+    }
 }
 
 void MainWidget::createActions()
@@ -196,6 +202,9 @@ void MainWidget::on_btnSave_clicked()
     timeEntry.description = ui->txtDescription->toPlainText();
 
     caller->postTimeEntry(timeEntry, this->getCurrentProjectId());
+
+    ui->sbHours->clear();
+    ui->txtDescription->clear();
 }
 
 void MainWidget::on_cmbProjects_currentIndexChanged(int index)
@@ -234,3 +243,16 @@ void MainWidget::on_sbHours_valueChanged(double hours)
 {
     tryToEnableSave(hours);
 }
+
+void MainWidget::on_btnSaveConfiguration_clicked()
+{
+    configuration->setApiKey(ui->txtApiKey->text());
+
+    caller = new Caller(this, this, ui->txtApiKey->text());
+
+    caller->getLoggedUser();
+    caller->getProjects();
+}
+
+void MainWidget::on_cmbCompanies_currentIndexChanged(int){}
+void MainWidget::on_sbHours_editingFinished(){}

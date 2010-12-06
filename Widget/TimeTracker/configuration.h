@@ -7,6 +7,8 @@ class Configuration
 {
 public:
     QString getApplicationConfigurationFolder();
+    QString getApiKey();
+    void setApiKey(QString apiKey);
 };
 
 #endif // CONFIGURATION_H

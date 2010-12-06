@@ -4,12 +4,12 @@
 #include <QtXml/QDomDocument>
 #include <ICallback.h>
 
-Caller::Caller(QObject *parent, ICallback *callbackObject)
+Caller::Caller(QObject *parent, ICallback *callbackObject, QString key)
     : QObject(parent),
     timeEntry("projects/%1/time_entries.xml"),
-    serviceUrl("https://inspirasandbox.basecamphq.com/"),
+    serviceUrl("https://inspiradev.basecamphq.com/"),
     projects("projects.xml"),
-    apiKey("dd8c4e8c9dcec2c1431c869ccc29d6c2c3745d06"),
+    apiKey(key),
     persons("projects/%1/people.xml"),
     companies("projects/%1/companies.xml"),
     me("me.xml")
