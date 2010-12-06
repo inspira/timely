@@ -1,6 +1,7 @@
 #include "configuration.h"
 
 #include <QtCore>
+#include <QSettings>
 
 QString Configuration::getApplicationConfigurationFolder()
 {
@@ -20,25 +21,34 @@ QString Configuration::getApplicationConfigurationFolder()
 
 QString Configuration::getApiKey()
 {
-    QFile file(getApplicationConfigurationFolder() + "/configuration");
+//    QFile file(getApplicationConfigurationFolder() + "/configuration");
 
-    if(file.open(QFile::ReadOnly))
-    {
-        return QString(file.readAll());
-    }
+//    if(file.open(QFile::ReadOnly))
+//    {
+//        return QString(file.readAll());
+//    }
 
-    return QString("");
+//    return QString("");
+
+    QSettings settings(QString("Inspira"), QString("Timely Widget"));
+
+    return settings.value("apikey").toString();
 }
 
 void Configuration::setApiKey(QString apiKey)
 {
-    QFile file(getApplicationConfigurationFolder() + "/configuration");
+//    QFile file(getApplicationConfigurationFolder() + "/configuration");
 
-    if(file.open(QFile::WriteOnly))
-    {
-        QTextStream stream (&file);
-        stream << apiKey;
+//    if(file.open(QFile::WriteOnly))
+//    {
+//        QTextStream stream (&file);
+//        stream << apiKey;
 
-        stream.flush();
-    }
+//        stream.flush();
+//    }
+
+
+    QSettings settings(QString("Inspira"), QString("Timely Widget"));
+
+    settings.setValue("apikey", apiKey);
 }
