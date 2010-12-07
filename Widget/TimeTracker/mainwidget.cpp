@@ -314,5 +314,28 @@ void MainWidget::sendHours()
     QTime timeWorked = this->time;
     time = QTime(0, 0, 0);
 
-    qDebug() << "Time worked:" + timeWorked.toString("hh:mm:ss");
+    double hours = timeSpanToDouble(timeWorked);
+
+    if(hours == 0){
+        QMessageBox::warning(this, tr("Horas insuficientes"), tr("Tempo trabalhado baixo demais para ser enviado"));
+        return;
+    }
+
+    TimeEntry timeEntry;
+    timeEntry.date = QDate::currentDate();
+    timeEntry.hours = hours;
+    timeEntry.personId = currentPerson.id;
+    timeEntry.description = ui->txtDescription->toPlainText();
+
+    caller->postTimeEntry(timeEntry, this->getCurrentProjectId());
+}
+
+double MainWidget::timeSpanToDouble(QTime time)
+{
+    double result = time.hour();
+
+    if(time.minute() != 0)
+        result += (double)time.minute() / 60;
+
+    return result;
 }

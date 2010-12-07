@@ -42,6 +42,8 @@ private:
 
     void sendHours();
 
+    double timeSpanToDouble(QTime timeSpan);
+
     bool canManuallySaveHours(double hours = 0);
 
     void tryToEnableSave(double hours = 0);
