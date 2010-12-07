@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QSystemTrayIcon>
+#include <QTime>
 
 #include <DomainModel/project.h>
 #include <DomainModel/person.h>
@@ -14,6 +15,7 @@ class QMenu;
 class Caller;
 class QDomNode;
 class Configuration;
+class QTimer;
 
 namespace Ui {
     class MainWidget;
@@ -34,6 +36,11 @@ private:
     void createTrayIcon();
     void setIcon();
     void closeEvent(QCloseEvent *);
+
+    void _startTimer();
+    void _stopTimer();
+
+    void sendHours();
 
     bool canManuallySaveHours(double hours = 0);
 
@@ -56,6 +63,10 @@ private:
 
     QString defaultHour;
 
+    QTimer *timer;
+    QTime time;
+    bool timerActive;
+
     Person currentPerson;
 
     int getCurrentProjectId();
@@ -64,6 +75,8 @@ private:
 
 
 private slots:
+    void on_btnPause_clicked();
+    void on_btnPlayPause_clicked();
     void on_btnSaveConfiguration_clicked();
     void on_sbHours_valueChanged(double );
     void on_sbHours_editingFinished();
@@ -73,6 +86,7 @@ private slots:
     void trayIconClicked(QSystemTrayIcon::ActivationReason);
     void gotProjects(QList<Project>);
     void gotPerson(Person person);
+    void updateTime();
 };
 
 #endif // MAINWIDGET_H

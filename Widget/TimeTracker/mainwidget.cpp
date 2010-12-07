@@ -5,6 +5,7 @@
 #include <QMenu>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
+#include <QTimer>
 
 #include <ServiceCalls/caller.h>
 #include <configuration.h>
@@ -13,9 +14,13 @@
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::MainWidget)
+    ui(new Ui::MainWidget),
+    time(0, 0, 0),
+    timerActive(false)
 {
     ui->setupUi(this);
+
+    ui->btnPause->setDisabled(true);
 
     configuration = new Configuration();
 
@@ -254,5 +259,60 @@ void MainWidget::on_btnSaveConfiguration_clicked()
     caller->getProjects();
 }
 
+void MainWidget::updateTime()
+{
+    time = time.addSecs(1);
+    qDebug() << time.toString("hh:mm:ss");
+    ui->txtRunningTime->setText(time.toString("hh:mm:ss"));
+}
+
 void MainWidget::on_cmbCompanies_currentIndexChanged(int){}
 void MainWidget::on_sbHours_editingFinished(){}
+
+void MainWidget::on_btnPlayPause_clicked()
+{
+    if(!timerActive)
+        _startTimer();
+    else{
+        if(QMessageBox::question(this, tr("Questão"), tr("Deseja realmente salvar as horas?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes){
+            sendHours();
+            ui->txtRunningTime->clear();
+        }
+    }
+}
+
+void MainWidget::_startTimer()
+{
+    qDebug() << "Started timer";
+    ui->btnPlayPause->setIcon(QIcon(":/resource/Player End.png"));
+    timer = new QTimer(this);
+    connect(timer,SIGNAL(timeout()), this, SLOT(updateTime()));
+    timer->start(1000);
+    timerActive = true;
+    ui->btnPause->setDisabled(false);
+}
+
+void MainWidget::_stopTimer()
+{
+    qDebug() << "Stopped timer";
+    ui->btnPlayPause->setIcon(QIcon(":/resource/Player Play.png"));
+    timer->stop();
+    delete timer;
+    timerActive = false;
+}
+
+void MainWidget::on_btnPause_clicked()
+{
+    _stopTimer();
+    ui->btnPause->setDisabled(true);
+}
+
+void MainWidget::sendHours()
+{
+    _stopTimer();
+
+    QTime timeWorked = this->time;
+    time = QTime(0, 0, 0);
+
+    qDebug() << "Time worked:" + timeWorked.toString("hh:mm:ss");
+}
