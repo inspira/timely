@@ -91,6 +91,8 @@ void MainWidget::trayIconClicked(QSystemTrayIcon::ActivationReason reason)
 
 MainWidget::~MainWidget()
 {
+    //TODO: Save hours to local file if timer is active
+
     delete ui;
 
     delete trayIcon;
