@@ -76,7 +76,7 @@ void MainWidget::closeEvent(QCloseEvent *event)
 {
     if (trayIcon->isVisible()) {
         trayIcon->showMessage(tr("Still here!!!"),
-        tr("This application is still running. To quit please click this icon and select Quit"));
+        tr("The Timely Widget is still running. To quit please click this icon and select Quit"));
         hide();
 
         event->ignore(); // Don't let the event propagate to the base class
@@ -198,7 +198,7 @@ void MainWidget::gotProjects(QList<Project> projects)
 void MainWidget::gotPerson(Person person)
 {
     this->currentPerson = person;
-    ui->lblWelcome->setText(QString("Bem vindo, %1").arg(person.name));
+    ui->lblWelcome->setText(QString("Welcome, %1").arg(person.name));
 }
 
 void MainWidget::on_btnSave_clicked()
@@ -301,7 +301,7 @@ void MainWidget::on_btnPlayPause_clicked()
         _startTimer();
     }
     else{
-        if(QMessageBox::question(this, tr("Questão"), tr("Deseja realmente salvar as horas?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes){
+        if(QMessageBox::question(this, tr("Question"), tr("Do you really wish to send your hours to Basecamp?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes){
             sendHours();
             ui->txtRunningTime->clear();
             ui->cmbProjects->setDisabled(false);
@@ -345,7 +345,7 @@ void MainWidget::sendHours()
     double hours = timeSpanToDouble(timeWorked);
 
     if(hours == 0){
-        QMessageBox::warning(this, tr("Horas insuficientes"), tr("Tempo trabalhado baixo demais para ser enviado"));
+        QMessageBox::warning(this, tr("Not enough hours"), tr("You have not worked the minimum amount of time that Basecamp can compute."));
         return;
     }
 
