@@ -69,7 +69,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="cmbProjects"/>
+       <widget class="QComboBox" name="cmbProjects">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QTextEdit" name="txtDescription"/>
@@ -87,6 +91,9 @@
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
            <widget class="QPushButton" name="btnPlayPause">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -98,6 +105,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="btnPause">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string/>
             </property>

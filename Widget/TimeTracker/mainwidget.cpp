@@ -188,6 +188,11 @@ void MainWidget::gotProjects(QList<Project> projects)
         if(projects.at(i).status == "active")
             ui->cmbProjects->addItem(projects.at(i).name, projects.at(i).id);
     }
+
+    if(ui->cmbProjects->count() > 0){
+        ui->btnPlayPause->setDisabled(false);
+        ui->cmbProjects->setDisabled(false);
+    }
 }
 
 void MainWidget::gotPerson(Person person)
@@ -273,12 +278,15 @@ void MainWidget::on_sbHours_editingFinished(){}
 
 void MainWidget::on_btnPlayPause_clicked()
 {
-    if(!timerActive)
+    if(!timerActive){
+        ui->cmbProjects->setDisabled(true);
         _startTimer();
+    }
     else{
         if(QMessageBox::question(this, tr("Questão"), tr("Deseja realmente salvar as horas?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes){
             sendHours();
             ui->txtRunningTime->clear();
+            ui->cmbProjects->setDisabled(false);
         }
     }
 }
