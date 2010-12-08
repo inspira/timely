@@ -271,6 +271,24 @@ void MainWidget::updateTime()
     time = time.addSecs(1);
     qDebug() << time.toString("hh:mm:ss");
     ui->txtRunningTime->setText(time.toString("hh:mm:ss"));
+
+    if(time.second() == 0 && time.minute() % 5 == 0){
+        if(trayIcon->isVisible()){
+            trayIcon->showMessage(tr("Reminder"), tr("You're currently working on: %1").arg(getCurrentProject().name));
+        }
+    }
+}
+
+Project MainWidget::getCurrentProject()
+{
+    int id = this->getCurrentProjectId();
+
+    for(int i = 0; i < projects.count(); i++){
+        if(projects.at(i).id == id)
+            return projects.at(i);
+    }
+
+    return Project();
 }
 
 void MainWidget::on_cmbCompanies_currentIndexChanged(int){}

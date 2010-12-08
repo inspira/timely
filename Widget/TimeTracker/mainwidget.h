@@ -72,6 +72,7 @@ private:
     Person currentPerson;
 
     int getCurrentProjectId();
+    Project getCurrentProject();
 
     Caller *caller;
 
