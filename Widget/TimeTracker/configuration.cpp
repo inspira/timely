@@ -21,15 +21,6 @@ QString Configuration::getApplicationConfigurationFolder()
 
 QString Configuration::getApiKey()
 {
-//    QFile file(getApplicationConfigurationFolder() + "/configuration");
-
-//    if(file.open(QFile::ReadOnly))
-//    {
-//        return QString(file.readAll());
-//    }
-
-//    return QString("");
-
     QSettings settings(QString("Inspira"), QString("Timely Widget"));
 
     return settings.value("apikey").toString();
@@ -37,18 +28,21 @@ QString Configuration::getApiKey()
 
 void Configuration::setApiKey(QString apiKey)
 {
-//    QFile file(getApplicationConfigurationFolder() + "/configuration");
-
-//    if(file.open(QFile::WriteOnly))
-//    {
-//        QTextStream stream (&file);
-//        stream << apiKey;
-
-//        stream.flush();
-//    }
-
-
     QSettings settings(QString("Inspira"), QString("Timely Widget"));
 
     settings.setValue("apikey", apiKey);
+}
+
+QString Configuration::getBasecampUrl()
+{
+    QSettings settings(QString("Inspira"), QString("Timely Widget"));
+
+    return settings.value("basecamp").toString();
+}
+
+void Configuration::setBasecampUrl(QString url)
+{
+    QSettings settings(QString("Inspira"), QString("Timely Widget"));
+
+    settings.setValue("basecamp", url);
 }

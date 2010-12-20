@@ -25,12 +25,13 @@ MainWidget::MainWidget(QWidget *parent) :
     configuration = new Configuration();
 
     ui->txtApiKey->setText(configuration->getApiKey());
+    ui->txtBasecamp->setText(configuration->getBasecampUrl());
 
     defaultHour = ui->sbHours->text();
 
     ui->btnSave->setDisabled(true);
 
-    caller = new Caller(this, this, ui->txtApiKey->text());
+    caller = new Caller(this, this, ui->txtApiKey->text(), ui->txtBasecamp->text());
 
     createActions();
     createTrayIcon();
@@ -38,7 +39,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
     trayIcon->show();
 
-    if(!ui->txtApiKey->text().isEmpty()){
+    if(!ui->txtApiKey->text().isEmpty() && !ui->txtBasecamp->text().isEmpty()){
         caller->getLoggedUser();
         caller->getProjects();
     }
@@ -86,7 +87,10 @@ void MainWidget::closeEvent(QCloseEvent *event)
 void MainWidget::trayIconClicked(QSystemTrayIcon::ActivationReason reason)
 {
     if(reason == QSystemTrayIcon::Trigger)
+    {
+        this->hide();
         this->show();
+    }
 }
 
 MainWidget::~MainWidget()
@@ -205,8 +209,6 @@ void MainWidget::on_btnSave_clicked()
 {
     Configuration config;
 
-    qDebug() << config.getApplicationConfigurationFolder();
-
     TimeEntry timeEntry;
     timeEntry.date = QDate::currentDate();
     timeEntry.hours = ui->sbHours->text().toDouble();
@@ -259,8 +261,9 @@ void MainWidget::on_sbHours_valueChanged(double hours)
 void MainWidget::on_btnSaveConfiguration_clicked()
 {
     configuration->setApiKey(ui->txtApiKey->text());
+    configuration->setBasecampUrl(ui->txtBasecamp->text());
 
-    caller = new Caller(this, this, ui->txtApiKey->text());
+    caller = new Caller(this, this, ui->txtApiKey->text(), ui->txtBasecamp->text());
 
     caller->getLoggedUser();
     caller->getProjects();

@@ -4,10 +4,10 @@
 #include <QtXml/QDomDocument>
 #include <ICallback.h>
 
-Caller::Caller(QObject *parent, ICallback *callbackObject, QString key)
+Caller::Caller(QObject *parent, ICallback *callbackObject, QString key, QString url)
     : QObject(parent),
     timeEntry("projects/%1/time_entries.xml"),
-    serviceUrl("https://inspiradev.basecamphq.com/"),
+    serviceUrl(url),
     projects("projects.xml"),
     apiKey(key),
     persons("projects/%1/people.xml"),

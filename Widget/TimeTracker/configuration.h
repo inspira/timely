@@ -9,6 +9,8 @@ public:
     QString getApplicationConfigurationFolder();
     QString getApiKey();
     void setApiKey(QString apiKey);
+    QString getBasecampUrl();
+    void setBasecampUrl(QString);
 };
 
 #endif // CONFIGURATION_H

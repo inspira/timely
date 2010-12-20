@@ -45,7 +45,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tabMain">
     <attribute name="title">
@@ -155,7 +155,7 @@
        <x>10</x>
        <y>10</y>
        <width>341</width>
-       <height>91</height>
+       <height>99</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -170,6 +170,20 @@
         </item>
         <item>
          <widget class="QLineEdit" name="txtApiKey"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Basecamp url:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="txtBasecamp"/>
         </item>
        </layout>
       </item>
