@@ -86,7 +86,7 @@ void Http::post(QString url, QString user, QString password, QString data)
 
     connect(netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finished(QNetworkReply*)));
 
-    reply = netManager->post(request, data.toAscii());
+    reply = netManager->post(request, data.toUtf8());
 
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(progress(qint64,qint64)));
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslError(QList<QSslError>)));
