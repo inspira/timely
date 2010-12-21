@@ -188,6 +188,8 @@ void MainWidget::gotProjects(QList<Project> projects)
 {
     this->projects = projects;
 
+    ui->cmbProjects->clear();
+
     for(int i = 0; i < projects.count(); i++){
         if(projects.at(i).status == "active")
             ui->cmbProjects->addItem(projects.at(i).name, projects.at(i).id);
