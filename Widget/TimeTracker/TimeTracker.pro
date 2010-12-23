@@ -8,6 +8,7 @@ QT       += core gui
 
 QT       += network xml
 
+DESTDIR = ../../../Timely-build
 
 TARGET = TimeTracker
 TEMPLATE = app
