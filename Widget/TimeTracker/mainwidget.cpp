@@ -47,10 +47,10 @@ MainWidget::MainWidget(QWidget *parent) :
 
 void MainWidget::createActions()
 {
-    open = new QAction(tr("&Abrir"), this);
+    open = new QAction(tr("&Open"), this);
     connect(open, SIGNAL(triggered()), this, SLOT(show()));
 
-    close = new QAction(tr("&Sair"), this);
+    close = new QAction(tr("&Close"), this);
     connect(close, SIGNAL(triggered()), qApp, SLOT(quit()));
 }
 

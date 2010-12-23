@@ -8,13 +8,10 @@ QT       += core gui
 
 QT       += network xml
 
-    TARGET = 32bit_binary
-    QMAKE_CFLAGS_RELEASE += -m32
-
 
 TARGET = TimeTracker
 TEMPLATE = app
-
+DESTDIR = build
 
 SOURCES += main.cpp \
     mainwidget.cpp \
