@@ -30,8 +30,6 @@ void Http::get(QString url, QString user, QString password)
 
 void Http::_get(QString url, QString user, QString password, bool requiresAuthorization)
 {
-    mutex.lock(); // Let's be thread-safe shall we?
-
     QSslConfiguration config(QSslConfiguration::defaultConfiguration());
 
     QNetworkRequest request;
@@ -46,12 +44,6 @@ void Http::_get(QString url, QString user, QString password, bool requiresAuthor
     request.setRawHeader("Accept", "application/xml");
     request.setRawHeader("Content-Type", "application/xml");
 
-    qDebug() << request.rawHeader("Authorization");
-    qDebug() << request.rawHeader("Accept");
-    qDebug() << request.rawHeader("Content-Type");
-
-    qDebug() << url;
-
     request.setUrl(QUrl(url));
 
     connect(netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finished(QNetworkReply*)));
@@ -61,8 +53,6 @@ void Http::_get(QString url, QString user, QString password, bool requiresAuthor
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(progress(qint64,qint64)));
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslError(QList<QSslError>)));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
-
-    mutex.unlock();
 }
 
 void Http::post(QString url, QString user, QString password, QString data)
@@ -82,8 +72,6 @@ void Http::post(QString url, QString user, QString password, QString data)
 
     request.setUrl(QUrl(url));
 
-    qDebug() << url;
-
     connect(netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finished(QNetworkReply*)));
 
     reply = netManager->post(request, data.toUtf8());
@@ -99,9 +87,6 @@ void Http::finished(QNetworkReply *reply)
 
     QString code = statusCode.toString();
 
-    qDebug() << QString("Response code: %1").arg(code);
-    qDebug() << reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
-
     QDomDocument dom;
     dom.setContent(reply);
 
@@ -115,7 +100,7 @@ void Http::sslError(QList<QSslError>)
 
 void Http::networkError(QNetworkReply::NetworkError error)
 {
-    qDebug() << error;
+    qDebug() << "Network error: " + error;
     QMessageBox::critical(0, tr("Error!"), tr("An network error has ocurred.\n"));
 }
 

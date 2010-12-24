@@ -29,7 +29,6 @@ signals:
 
 private:
     ICallback *callbackObject;
-    QMutex mutex;
     QNetworkAccessManager *netManager;
     QNetworkReply *reply;
 

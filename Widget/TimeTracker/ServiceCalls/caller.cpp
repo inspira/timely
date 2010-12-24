@@ -43,8 +43,6 @@ void Caller::postTimeEntry(TimeEntry timeEntry, int projectId)
     QString xml("<time-entry><person-id>%1</person-id><date>%2</date><hours>%3</hours><description>%4</description></time-entry>");
     xml = xml.arg(timeEntry.personId).arg(timeEntry.date.toString(QString("yyyyMMdd"))).arg(timeEntry.hours).arg(timeEntry.description);
 
-    qDebug() << xml;
-
     http->post(QString("%1%2").arg(serviceUrl).arg(this->timeEntry.arg(projectId)), apiKey, QString("x"), xml);
 }
 

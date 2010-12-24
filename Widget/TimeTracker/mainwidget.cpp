@@ -77,7 +77,7 @@ void MainWidget::closeEvent(QCloseEvent *event)
 {
     if (trayIcon->isVisible()) {
         trayIcon->showMessage(tr("Still here!!!"),
-        tr("The Timely Widget is still running. To quit please click this icon and select Quit"));
+        tr("This application is still running. To quit please click this icon and select Quit"));
         hide();
 
         event->ignore(); // Don't let the event propagate to the base class
@@ -108,7 +108,6 @@ MainWidget::~MainWidget()
 
 void MainWidget::callback(QDomDocument data)
 {
-    qDebug() << data.toString();
 
     QDomElement root = data.documentElement();
 
@@ -123,10 +122,6 @@ void MainWidget::callback(QDomDocument data)
         qDebug() << "Got person";
 
         gotPerson(parsePerson(root));
-    }
-    else if(root.tagName() == "companies")
-    {
-        qDebug() << "Got companies";
     }
 }
 
@@ -162,18 +157,12 @@ QList<Project> MainWidget::parseProjects(QDomNode projectRoot)
 
 Person MainWidget::parsePerson(QDomNode personRoot)
 {
-    qDebug() << personRoot.toElement().text();
-
     QDomNodeList nodes = personRoot.childNodes();
-
-    qDebug() << QString("Got %1").arg(nodes.count());
 
     Person p;
 
     for(int i = 0; i < nodes.count(); i++){
         QDomElement element = nodes.at(i).toElement();
-
-        qDebug() << element.tagName();
 
         if(element.tagName() == "id")
             p.id = element.text().toInt();
@@ -274,7 +263,6 @@ void MainWidget::on_btnSaveConfiguration_clicked()
 void MainWidget::updateTime()
 {
     time = time.addSecs(1);
-    qDebug() << time.toString("hh:mm:ss");
     ui->txtRunningTime->setText(time.toString("hh:mm:ss"));
 
     if(time.second() == 0 && time.minute() % 5 == 0){
