@@ -12,6 +12,12 @@
 
 #include <DomainModel/timeentry.h>
 
+#ifdef Q_WS_MAC
+
+    extern void qt_mac_set_dock_menu(QMenu*);
+
+#endif
+
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget),
@@ -19,6 +25,16 @@ MainWidget::MainWidget(QWidget *parent) :
     timerActive(false)
 {
     ui->setupUi(this);
+
+#ifdef Q_WS_MAC
+
+    this->setAttribute(Qt::WA_MacBrushedMetal, true);
+    this->ui->btnPause->setAttribute(Qt::WA_MacBrushedMetal, true);
+    this->ui->btnPlayPause->setAttribute(Qt::WA_MacBrushedMetal, true);
+    this->ui->btnSave->setAttribute(Qt::WA_MacBrushedMetal, true);
+    this->ui->btnSaveConfiguration->setAttribute(Qt::WA_MacBrushedMetal, true);
+
+#endif
 
     ui->btnPause->setDisabled(true);
 
@@ -63,6 +79,13 @@ void MainWidget::createTrayIcon()
     trayIconMenu->addAction(close);
 
     trayIcon = new QSystemTrayIcon(this);
+
+#ifdef Q_WS_MAC
+
+    qt_mac_set_dock_menu(trayIconMenu);
+
+#endif
+
     trayIcon->setContextMenu(trayIconMenu);
 
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconClicked(QSystemTrayIcon::ActivationReason)));
