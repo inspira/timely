@@ -61,6 +61,10 @@ private:
 
     QAction *open;
     QAction *close;
+    QAction *status;
+    QAction *play;
+    QAction *pause;
+
     Configuration *configuration;
 
     QString defaultHour;
@@ -70,6 +74,7 @@ private:
     bool timerActive;
 
     Person currentPerson;
+    QString currentProjectName;
 
     int getCurrentProjectId();
     Project getCurrentProject();

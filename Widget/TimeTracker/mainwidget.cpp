@@ -68,12 +68,27 @@ void MainWidget::createActions()
 
     close = new QAction(tr("&Close"), this);
     connect(close, SIGNAL(triggered()), qApp, SLOT(quit()));
+
+    status = new QAction(tr("Stopped"), this);
+    status->setDisabled(true);
+
+    play = new QAction(tr("Play"), this);
+    connect(play, SIGNAL(triggered()), this, SLOT(on_btnPlayPause_clicked()));
+    play->setDisabled(true);
+
+    pause = new QAction(tr("Pause"), this);
+    connect(pause, SIGNAL(triggered()), this, SLOT(on_btnPause_clicked()));
+    pause->setDisabled(true);
 }
 
 void MainWidget::createTrayIcon()
 {
     trayIconMenu = new QMenu(this);
 
+    trayIconMenu->addAction(status);
+    trayIconMenu->addAction(play);
+    trayIconMenu->addAction(pause);
+    trayIconMenu->addSeparator();
     trayIconMenu->addAction(open);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(close);
@@ -208,6 +223,7 @@ void MainWidget::gotProjects(QList<Project> projects)
     }
 
     if(ui->cmbProjects->count() > 0){
+        play->setDisabled(false);
         ui->btnPlayPause->setDisabled(false);
         ui->cmbProjects->setDisabled(false);
     }
@@ -237,6 +253,7 @@ void MainWidget::on_btnSave_clicked()
 
 void MainWidget::on_cmbProjects_currentIndexChanged(int index)
 {
+    currentProjectName = this->getCurrentProject().name;
     tryToEnableSave();
 }
 
@@ -286,6 +303,7 @@ void MainWidget::on_btnSaveConfiguration_clicked()
 void MainWidget::updateTime()
 {
     time = time.addSecs(1);
+    status->setText(QString("%1 - %2").arg(currentProjectName).arg(time.toString("hh:mm:ss")));
     ui->txtRunningTime->setText(time.toString("hh:mm:ss"));
 
     if(time.second() == 0 && time.minute() % 5 == 0){
@@ -319,6 +337,10 @@ void MainWidget::on_btnPlayPause_clicked()
     else{
         if(QMessageBox::question(this, tr("Question"), tr("Do you really wish to send your hours to Basecamp?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes){
             sendHours();
+            status->setText(tr("Stopped"));
+            pause->setDisabled(true);
+            play->setDisabled(true);
+            play->setText("Play");
             ui->txtRunningTime->clear();
             ui->cmbProjects->setDisabled(false);
         }
@@ -334,6 +356,9 @@ void MainWidget::_startTimer()
     timer->start(1000);
     timerActive = true;
     ui->btnPause->setDisabled(false);
+    play->setDisabled(false);
+    play->setText(tr("Stop and save"));
+    pause->setDisabled(false);
 }
 
 void MainWidget::_stopTimer()
@@ -349,6 +374,8 @@ void MainWidget::on_btnPause_clicked()
 {
     _stopTimer();
     ui->btnPause->setDisabled(true);
+    pause->setDisabled(true);
+    play->setText("Play");
 }
 
 void MainWidget::sendHours()
