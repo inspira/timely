@@ -6,7 +6,6 @@ class QString;
 class Configuration
 {
 public:
-    QString getApplicationConfigurationFolder();
     QString getApiKey();
     void setApiKey(QString apiKey);
     QString getBasecampUrl();

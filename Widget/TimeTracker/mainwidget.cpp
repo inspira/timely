@@ -146,7 +146,6 @@ MainWidget::~MainWidget()
 
 void MainWidget::callback(QDomDocument data)
 {
-
     QDomElement root = data.documentElement();
 
     if(root.tagName() == "projects")

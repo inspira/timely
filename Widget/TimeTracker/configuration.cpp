@@ -3,22 +3,6 @@
 #include <QtCore>
 #include <QSettings>
 
-QString Configuration::getApplicationConfigurationFolder()
-{
-    QString path("");
-
-#ifdef Q_WS_WIN
-    path = QDir::homePath() + "/Application Data/Timely";
-#else
-    path = QDir::homePath() + "/.config/Timely";
-#endif
-
-    if(!QDir(path).exists())
-        QDir().mkdir(path);
-
-    return path;
-}
-
 QString Configuration::getApiKey()
 {
     QSettings settings(QString("Inspira"), QString("Timely Widget"));
