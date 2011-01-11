@@ -384,7 +384,7 @@ void MainWidget::sendHours()
     QTime timeWorked = this->time;
     time = QTime(0, 0, 0);
 
-    double hours = timeSpanToDouble(timeWorked);
+    double hours = timeSpanToDouble(&timeWorked);
 
     if(hours == 0){
         QMessageBox::warning(this, tr("Not enough hours"), tr("You have not worked the minimum amount of time that Basecamp can compute."));
@@ -400,12 +400,12 @@ void MainWidget::sendHours()
     caller->postTimeEntry(timeEntry, this->getCurrentProjectId());
 }
 
-double MainWidget::timeSpanToDouble(QTime time)
+double MainWidget::timeSpanToDouble(QTime *time)
 {
-    double result = time.hour();
+    double result = time->hour();
 
-    if(time.minute() != 0)
-        result += (double)time.minute() / 60;
+    if(time->minute() != 0)
+        result += (double)time->minute() / 60;
 
     return result;
 }

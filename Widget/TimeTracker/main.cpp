@@ -12,6 +12,12 @@ int main(int argc, char *argv[])
 
 #endif
 
+#ifdef QT_MAC_USE_COCOA
+
+    qDebug() << "Using the Cocoa MAC OS API";
+
+#endif
+
     MainWidget mainWidget;
     mainWidget.show();
 
