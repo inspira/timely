@@ -14,25 +14,26 @@ TARGET = timely
 TEMPLATE = app
 DESTDIR = build
 
-SOURCES += main.cpp \
-    mainwidget.cpp \
-    REST/http.cpp \
-    ServiceCalls/caller.cpp \
-    configuration.cpp
+SOURCES += \
+    src/main.cpp \
+    src/mainwidget.cpp \
+    src/REST/http.cpp \
+    src/ServiceCalls/caller.cpp \
+    src/configuration.cpp
 
 HEADERS  += \
-    mainwidget.h \
-    REST/http.h \
-    ICallback.h \
-    ServiceCalls/caller.h \
-    DomainModel/project.h \
-    DomainModel/person.h \
-    DomainModel/company.h \
-    configuration.h \
-    DomainModel/timeentry.h
+    src/mainwidget.h \
+    src/REST/http.h \
+    src/ICallback.h \
+    src/ServiceCalls/caller.h \
+    src/DomainModel/project.h \
+    src/DomainModel/person.h \
+    src/DomainModel/company.h \
+    src/configuration.h \
+    src/DomainModel/timeentry.h
 
 FORMS    += \
-    mainwidget.ui
+    src/mainwidget.ui
 
 RESOURCES += \
-    Resource.qrc
+    src/Resource.qrc
