@@ -9,6 +9,7 @@ QT = core gui network xml
 TARGET = timely
 TEMPLATE = app
 DESTDIR = build
+INCLUDEPATH += src src/REST src/ServiceCalls src/DomainModel
 
 SOURCES += \
     src/main.cpp \
