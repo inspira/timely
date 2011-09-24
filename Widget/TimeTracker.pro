@@ -4,10 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-
-QT       += network xml
-
+QT = core gui network xml
 
 TARGET = timely
 TEMPLATE = app
