@@ -18,7 +18,7 @@ SOURCES += \
     src/ServiceCalls/caller.cpp \
     src/configuration.cpp
 
-HEADERS  += \
+HEADERS += \
     src/mainwidget.h \
     src/REST/http.h \
     src/ICallback.h \
@@ -29,7 +29,7 @@ HEADERS  += \
     src/configuration.h \
     src/DomainModel/timeentry.h
 
-FORMS    += \
+FORMS += \
     src/mainwidget.ui
 
 RESOURCES += \
