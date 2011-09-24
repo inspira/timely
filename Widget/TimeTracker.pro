@@ -8,7 +8,6 @@ QT       += core gui
 
 QT       += network xml
 
-DESTDIR = ../../../Timely-build
 
 TARGET = timely
 TEMPLATE = app
