@@ -10,7 +10,7 @@ QT       += network xml
 
 DESTDIR = ../../../Timely-build
 
-TARGET = TimeTracker
+TARGET = timely
 TEMPLATE = app
 DESTDIR = build
 
