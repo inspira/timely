@@ -1,0 +1,7 @@
+.DS_Store
+/build/
+/out/
+Makefile
+/src/ui/
+/src/moc/
+/src/resources/

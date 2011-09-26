@@ -1,0 +1,21 @@
+h1. Timely
+
+Timely is an extremely simple cross-platform time tracker utility.
+
+It's designed to be integrated to any data repository over the web.
+For now, it's working with Basecamp, but Google Spreadsheet is in our plans.
+
+h2. Installation
+
+Clone the repo and from the project's root, run:
+
+<pre>
+qmake timely.pro
+make
+</pre>
+
+
+h2. Dependencies
+
+Timely depends on "QT":http://qt.nokia.com/downloads
+

@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/resource">
+        <file>army-officer-icon.png</file>
+        <file>Player End.png</file>
+        <file>Player Pause.png</file>
+        <file>Player Play.png</file>
+        <file>Player Stop Icon.jpg</file>
+    </qresource>
+</RCC>
