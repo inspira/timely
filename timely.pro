@@ -1,14 +1,13 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2010-11-29T16:14:41
-#
-#-------------------------------------------------
-
 QT = core gui network xml
 
 TARGET = timely
 TEMPLATE = app
 DESTDIR = build
+MOC_DIR = src/moc
+OBJECTS_DIR = out
+UI_HEADERS_DIR = src/ui
+UI_SOURCES_DIR = src/ui
+RCC_DIR = src/resources
 INCLUDEPATH += src src/REST src/ServiceCalls src/DomainModel
 
 SOURCES += \
